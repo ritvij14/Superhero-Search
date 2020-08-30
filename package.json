@@ -15,7 +15,7 @@
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "build:tailwind": "tailwindcss build src/tailwind.css -o src/tailwind.output.css",
+    "build:tailwind": "tailwindcss build src/tailwind.css -o src/tailwind.min.css",
     "prestart": "npm run build:tailwind",
     "prebuild": "npm run build:tailwind",
     "start": "react-scripts start",
