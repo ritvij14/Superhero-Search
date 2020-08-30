@@ -3,14 +3,14 @@ import './App.css';
 import HeroCard from './components/HeroCard';
 import Axios from 'axios';
 
-const url = 'https://cors-anywhere.herokuapp.com/https://superheroapi.com/api/257638918909912/search/';
+const url = `https://cors-anywhere.herokuapp.com/https://superheroapi.com/api/${process.env.REACT_APP_GAPI_KEY}/search/`;
 function App() {
-  const [heroes, setHeroes] = useState(
+  const [heroes, setHeroes] = useState(() =>
     sessionStorage.getItem('list')
       ? { list: JSON.parse(sessionStorage.getItem('list')) }
-      : { list: [] }
+      : { list: null }
   );
-  const [query, setQuery] = useState(
+  const [query, setQuery] = useState(() =>
     sessionStorage.getItem('query') ? sessionStorage.getItem('query') : ''
   );
   const onChangeHandler = (e) => {
@@ -19,12 +19,12 @@ function App() {
   };
   const searchHandler = async () => {
     await Axios.get(url + query).then((heroesData) => {
-      if (heroesData.response === 'error') {
+      if (Array.isArray(heroesData.data.results)) {
         console.log(heroesData.response);
-        setHeroes({ list: [] });
-      } else {
         setHeroes({ list: heroesData.data.results });
         sessionStorage.setItem('list', JSON.stringify(heroesData.data.results));
+      } else {
+        setHeroes({ list: [] });
       }
     });
   };
@@ -53,15 +53,16 @@ function App() {
         </button>
       </div>
       <div className="grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
-        {typeof heroes.list !== undefined && Array.isArray(heroes.list) ? (
-          heroes.list.map((hero) => (
-            <div key={hero.id}>
-              <HeroCard heroData={hero} />
-            </div>
-          ))
-        ) : (
-          <h1>Sorry no heroes found for your search.</h1>
-        )}
+        {Array.isArray(heroes.list) &&
+          (heroes.list.length !== 0 ? (
+            heroes.list.map((hero) => (
+              <div key={hero.id}>
+                <HeroCard heroData={hero} />
+              </div>
+            ))
+          ) : (
+            <h1>Sorry no heroes found for your search.</h1>
+          ))}
       </div>
     </div>
   );
