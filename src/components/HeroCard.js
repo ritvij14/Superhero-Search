@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 const HeroCard = ({ heroData }) => {
-  const [name] = useState(heroData.name);
-  console.log(heroData);
+  // console.log(heroData);
   return (
     <div className="rounded mx-4 my-5 shadow-xl border-4 border-aqua">
       <img
@@ -10,7 +9,7 @@ const HeroCard = ({ heroData }) => {
         src={heroData.image.url}
         alt="hero_image"
       />
-      <h1 className="text-xl">{name}</h1>
+      <h1 className="text-xl">{heroData.name}</h1>
       <div className="border-b-2 border-aqua">
         <h2 className="text-lg">Powerstats:</h2>
         <div className="flex pl-2">

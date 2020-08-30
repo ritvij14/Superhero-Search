@@ -20,7 +20,7 @@ function App() {
   const searchHandler = async () => {
     await Axios.get(url + query).then((heroesData) => {
       if (Array.isArray(heroesData.data.results)) {
-        console.log(heroesData.response);
+        // console.log(heroesData.response);
         setHeroes({ list: heroesData.data.results });
         sessionStorage.setItem('list', JSON.stringify(heroesData.data.results));
       } else {
