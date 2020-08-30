@@ -3,7 +3,7 @@ import './App.css';
 import HeroCard from './components/HeroCard';
 import Axios from 'axios';
 
-const url = 'https://superheroapi.com/api/257638918909912/search/';
+const url = 'https://cors-anywhere.herokuapp.com/https://superheroapi.com/api/257638918909912/search/';
 function App() {
   const [heroes, setHeroes] = useState(
     sessionStorage.getItem('list')
