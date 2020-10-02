@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import HeroCard from './components/HeroCard';
 import Axios from 'axios';
+import BarLoader from "react-spinners/BarLoader";
 
 const url = `https://cors-anywhere.herokuapp.com/https://superheroapi.com/api/${process.env.REACT_APP_GAPI_KEY}/search/`;
 function App() {
@@ -52,6 +53,7 @@ function App() {
           Search
         </button>
       </div>
+    <BarLoader loading />
       <div className="grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
         {Array.isArray(heroes.list) &&
           (heroes.list.length !== 0 ? (
