@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import './App.css';
 import HeroCard from './components/HeroCard';
 import Axios from 'axios';
-import BarLoader from "react-spinners/BarLoader";
+import MoonLoader from 'react-spinners/MoonLoader';
 
 const url = `https://cors-anywhere.herokuapp.com/https://superheroapi.com/api/${process.env.REACT_APP_GAPI_KEY}/search/`;
 function App() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [heroes, setHeroes] = useState(() =>
     sessionStorage.getItem('list')
       ? { list: JSON.parse(sessionStorage.getItem('list')) }
@@ -19,15 +21,27 @@ function App() {
     sessionStorage.setItem('query', e.target.value);
   };
   const searchHandler = async () => {
-    await Axios.get(url + query).then((heroesData) => {
-      if (Array.isArray(heroesData.data.results)) {
-        // console.log(heroesData.response);
-        setHeroes({ list: heroesData.data.results });
-        sessionStorage.setItem('list', JSON.stringify(heroesData.data.results));
-      } else {
-        setHeroes({ list: [] });
-      }
-    });
+    setIsLoading(true);
+    await Axios.get(url + query)
+      .then((heroesData) => {
+        if (Array.isArray(heroesData.data.results)) {
+          // console.log(heroesData.response);
+          setHeroes({ list: heroesData.data.results });
+          sessionStorage.setItem(
+            'list',
+            JSON.stringify(heroesData.data.results)
+          );
+          setIsLoading(false);
+        } else {
+          setHeroes({ list: [] });
+          setIsLoading(false);
+        }
+      })
+      .catch((error) => {
+        // console.error(error);
+        setIsLoading(false);
+        alert(error);
+      });
   };
   // handling enter key pressed
   const handleKeyPress = (e) => {
@@ -53,7 +67,9 @@ function App() {
           Search
         </button>
       </div>
-    <BarLoader loading />
+      <div className="loader">
+        <MoonLoader loading={isLoading} size={40} />
+      </div>
       <div className="grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
         {Array.isArray(heroes.list) &&
           (heroes.list.length !== 0 ? (
