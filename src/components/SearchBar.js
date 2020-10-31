@@ -1,6 +1,13 @@
 import React from 'react'
 
 const SearchBar = () => {
+  const onChangeHandler = (e) => { };
+  const searchHandler = async () => { };
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      searchHandler();
+    }
+  };
   return (
     <div className="App">
       <div className="lg:flex py-10 justify-center">
