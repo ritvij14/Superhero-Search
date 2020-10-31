@@ -1,0 +1,26 @@
+import React from 'react'
+
+const SearchBar = () => {
+  return (
+    <div className="App">
+      <div className="lg:flex py-10 justify-center">
+        <input
+          type="text"
+          placeholder="Enter hero name"
+          value={query}
+          className="mt-2 border-2 rounded focus:outline-none px-2"
+          onChange={onChangeHandler}
+          onKeyDown={handleKeyPress}
+        />
+        <button
+          onClick={searchHandler}
+          className="mt-2 bg-blue-500 focus:outline-none hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default SearchBar;
