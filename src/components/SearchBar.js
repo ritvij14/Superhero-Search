@@ -1,8 +1,16 @@
-import React from 'react'
+  
+import React, { useState } from 'react';
+import MoonLoader from 'react-spinners/MoonLoader';
 
 const SearchBar = () => {
+  const [isLoading, setLoading] = useState(false);
+  // handling changes in search box
   const onChangeHandler = (e) => { };
-  const searchHandler = async () => { };
+  // to send request to API
+  const searchHandler = async () => {
+    setLoading(true);
+  };
+  // handling enter key pressed
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       searchHandler();
@@ -24,6 +32,9 @@ const SearchBar = () => {
         >
           Search
         </button>
+      </div>
+      <div className="lg:flex justify-center">
+        <MoonLoader loading={isLoading} size={40} />
       </div>
     </div>
   );
