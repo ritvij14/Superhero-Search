@@ -14,7 +14,6 @@ const SearchBar = () => {
         <input
           type="text"
           placeholder="Enter hero name"
-          value={query}
           className="mt-2 border-2 rounded focus:outline-none px-2"
           onChange={onChangeHandler}
           onKeyDown={handleKeyPress}
