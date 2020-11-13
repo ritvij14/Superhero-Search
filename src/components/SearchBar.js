@@ -7,11 +7,18 @@ const url = `https://cors-anywhere.herokuapp.com/https://superheroapi.com/api/${
 
 const SearchBar = () => {
   const [isLoading, setLoading] = useState(false);
-  const [heroes, setHeroes] = useState({ list: null });
-  const [query, setQuery] = useState('');
+  const [heroes, setHeroes] = useState(() =>
+    sessionStorage.getItem('list')
+      ? { list: JSON.parse(sessionStorage.getItem('list')) }
+      : { list: null }
+  );
+  const [query, setQuery] = useState(() =>
+    sessionStorage.getItem('query') ? sessionStorage.getItem('query') : ''
+  );
   // handling changes in search box
   const onChangeHandler = (e) => {
     setQuery(e.target.value);
+    sessionStorage.setItem('query', e.target.value);
   };
   // to send request to API
   const searchHandler = async () => {
@@ -20,6 +27,10 @@ const SearchBar = () => {
       .then((heroesData) => {
         if (Array.isArray(heroesData.data.results)) {
           setHeroes({ list: heroesData.data.results });
+          sessionStorage.setItem(
+            'list',
+            JSON.stringify(heroesData.data.results)
+          );
           setLoading(false);
         } else {
           setHeroes({ list: [] });
@@ -43,6 +54,7 @@ const SearchBar = () => {
         <input
           type="text"
           placeholder="Enter hero name"
+          value={query}
           className="mt-2 border-2 rounded focus:outline-none px-2"
           onChange={onChangeHandler}
           onKeyDown={handleKeyPress}
