@@ -18,7 +18,6 @@ const SearchBar = () => {
     await Axios.get(url + query)
       .then((heroesData) => {
         if (Array.isArray(heroesData.data.results)) {
-          console.log(heroesData.response);
           setHeroes({ list: heroesData.data.results });
           setLoading(false);
         } else {
