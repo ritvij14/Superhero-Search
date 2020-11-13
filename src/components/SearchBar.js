@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import HeroCard from './HeroCard';
 import Axios from 'axios';
 import MoonLoader from 'react-spinners/MoonLoader';
 
@@ -6,7 +7,7 @@ const url = `https://cors-anywhere.herokuapp.com/https://superheroapi.com/api/${
 
 const SearchBar = () => {
   const [isLoading, setLoading] = useState(false);
-  const [heroes, setHeroes] = useState({ list: [] });
+  const [heroes, setHeroes] = useState({ list: null });
   const [query, setQuery] = useState('');
   // handling changes in search box
   const onChangeHandler = (e) => {
@@ -55,6 +56,18 @@ const SearchBar = () => {
       </div>
       <div className="lg:flex justify-center">
         <MoonLoader loading={isLoading} size={40} />
+      </div>
+      <div className="grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+        {Array.isArray(heroes.list) &&
+          (heroes.list.length !== 0 ? (
+            heroes.list.map((hero) => (
+              <div key={hero.id}>
+                <HeroCard heroData={hero} />
+              </div>
+            ))
+          ) : (
+            <h1>Sorry no heroes found for your search.</h1>
+          ))}
       </div>
     </div>
   );
