@@ -1,13 +1,35 @@
 import React, { useState } from 'react';
+import Axios from 'axios';
 import MoonLoader from 'react-spinners/MoonLoader';
+
+const url = `https://cors-anywhere.herokuapp.com/https://superheroapi.com/api/${process.env.REACT_APP_GAPI_KEY}/search/`;
 
 const SearchBar = () => {
   const [isLoading, setLoading] = useState(false);
+  const [heroes, setHeroes] = useState({ list: [] });
+  const [query, setQuery] = useState('');
   // handling changes in search box
-  const onChangeHandler = (e) => { };
+  const onChangeHandler = (e) => {
+    setQuery(e.target.value);
+  };
   // to send request to API
   const searchHandler = async () => {
     setLoading(true);
+    await Axios.get(url + query)
+      .then((heroesData) => {
+        if (Array.isArray(heroesData.data.results)) {
+          console.log(heroesData.response);
+          setHeroes({ list: heroesData.data.results });
+          setLoading(false);
+        } else {
+          setHeroes({ list: [] });
+          setLoading(false);
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        alert(error);
+      });
   };
   // handling enter key pressed
   const handleKeyPress = (e) => {
